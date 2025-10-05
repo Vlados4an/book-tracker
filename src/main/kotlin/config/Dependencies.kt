@@ -1,6 +1,6 @@
 package ru.clevertec.config
 
-import di.modules.createAppModule
+import ru.clevertec.modules.createAppModule
 import io.ktor.server.application.*
 import org.kodein.di.ktor.di
 import ru.clevertec.modules.kafkaModule

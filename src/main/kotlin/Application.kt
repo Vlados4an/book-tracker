@@ -1,6 +1,7 @@
 package ru.clevertec
 
 import config.configureDatabase
+import config.configureKafka
 import config.configureSerialization
 import io.ktor.server.application.*
 import ru.clevertec.config.configureDependencies
@@ -19,4 +20,5 @@ fun Application.module() {
     configureRouting()
     configureExceptions()
     configureSerialization()
+    configureKafka()
 }

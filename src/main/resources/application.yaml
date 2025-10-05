@@ -13,12 +13,13 @@ database:
 liquibase:
   changelog: db/changelog/db.changelog-master.yaml
 
-  kafka:
-    bootstrapServers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
-    producer:
-      clientId: book-service-producer
-      acks: all
-      retries: 3
-    topics:
-      bookEvents: "book-events"
-      authorEvents: "author-events"
+kafka:
+  bootstrapServers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+  consumer:
+    groupId: "book-service-consumer-group"
+    clientId: "book-service-consumer"
+    autoOffsetReset: "earliest"
+    enableAutoCommit: false
+  topics:
+    bookEvents: "book-events"
+    authorEvents: "author-events"

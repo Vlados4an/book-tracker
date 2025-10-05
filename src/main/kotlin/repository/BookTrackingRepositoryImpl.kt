@@ -1,34 +1,35 @@
 package ru.clevertec.repository
 
+import dto.tracking.BookTrackingHistoryDto
+import dto.tracking.CreateBookTrackingRequest
 import dto.tracking.ReserveBookRequest
 import dto.tracking.UpdateBookStatusRequest
-import dto.tracking.BookTrackingHistoryDto
-import model.entity.*
+import mapper.toDto
+import model.entity.BookTrackingEntity
+import model.entity.BookTrackingHistoryEntity
 import model.enums.BookStatus
-import model.table.BookTrackings
 import model.table.BookTrackingHistories
+import model.table.BookTrackings
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.time.Instant
-import mapper.toDto
 import java.time.LocalDate
 
 class BookTrackingRepositoryImpl : BookTrackingRepository {
 
-    override fun create(bookId: Int, status: BookStatus): BookTrackingEntity = transaction {
+    override fun create(req: CreateBookTrackingRequest): BookTrackingEntity = transaction {
         val entity = BookTrackingEntity.new {
-            this.bookId = bookId
-            this.status = status
-            borrowedAt = null
-            dueDate = null
-            borrowedBy = null
-            reservedBy = null
-            reservedUntil = null
+            this.bookId = req.bookId
+            this.status = req.status
+            this.borrowedAt = req.borrowedAt
+            this.dueDate = req.dueDate
+            this.borrowedBy = req.borrowedBy
+            this.reservedBy = req.reservedBy
+            this.reservedUntil = req.reservedUntil
             isDeleted = false
             updatedAt = LocalDate.now()
         }
-        addHistory(entity, status, "created")
+        addHistory(entity, req.status, "created")
         entity
     }
 
@@ -47,9 +48,7 @@ class BookTrackingRepositoryImpl : BookTrackingRepository {
 
     override fun updateStatus(bookId: Int, req: UpdateBookStatusRequest): BookTrackingEntity? = transaction {
         val entity = findByBookId(bookId) ?: return@transaction null
-        val now = Instant.now()
 
-        // Логика смены статуса
         entity.status = req.status
         when (req.status) {
             BookStatus.BORROWED -> {
@@ -59,15 +58,15 @@ class BookTrackingRepositoryImpl : BookTrackingRepository {
                 entity.reservedBy = null
                 entity.reservedUntil = null
             }
+
             BookStatus.AVAILABLE -> {
                 entity.borrowedAt = null
                 entity.dueDate = null
                 entity.borrowedBy = null
             }
-            BookStatus.RESERVED -> {
-                // игнор, резерв через отдельный метод
+
+            else -> {
             }
-            else -> { /* MAINTENANCE, LOST */ }
         }
         entity.updatedAt = LocalDate.now()
         addHistory(entity, req.status, "status update")

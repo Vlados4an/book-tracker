@@ -4,6 +4,7 @@ import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import model.enums.BookStatus
 import java.time.Instant
+import java.time.LocalDate
 
 @Serializable
 data class BookTrackingHistoryDto(
@@ -11,6 +12,6 @@ data class BookTrackingHistoryDto(
     val trackingId: Int,
     val bookId: Int,
     val status: BookStatus,
-    @Contextual val changedAt: Instant,
+    @Contextual val changedAt: LocalDate,
     val comment: String?
 )

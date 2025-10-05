@@ -12,11 +12,11 @@ import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.Instant
 import mapper.toDto
+import java.time.LocalDate
 
 class BookTrackingRepositoryImpl : BookTrackingRepository {
 
     override fun create(bookId: Int, status: BookStatus): BookTrackingEntity = transaction {
-        val now = Instant.now()
         val entity = BookTrackingEntity.new {
             this.bookId = bookId
             this.status = status
@@ -26,7 +26,7 @@ class BookTrackingRepositoryImpl : BookTrackingRepository {
             reservedBy = null
             reservedUntil = null
             isDeleted = false
-            updatedAt = now
+            updatedAt = LocalDate.now()
         }
         addHistory(entity, status, "created")
         entity
@@ -53,7 +53,7 @@ class BookTrackingRepositoryImpl : BookTrackingRepository {
         entity.status = req.status
         when (req.status) {
             BookStatus.BORROWED -> {
-                entity.borrowedAt = now
+                entity.borrowedAt = LocalDate.now()
                 entity.dueDate = req.dueDate
                 entity.borrowedBy = req.borrowedBy
                 entity.reservedBy = null
@@ -69,7 +69,7 @@ class BookTrackingRepositoryImpl : BookTrackingRepository {
             }
             else -> { /* MAINTENANCE, LOST */ }
         }
-        entity.updatedAt = now
+        entity.updatedAt = LocalDate.now()
         addHistory(entity, req.status, "status update")
         entity
     }
@@ -82,7 +82,7 @@ class BookTrackingRepositoryImpl : BookTrackingRepository {
         entity.status = BookStatus.RESERVED
         entity.reservedBy = req.userId
         entity.reservedUntil = req.reservedUntil
-        entity.updatedAt = Instant.now()
+        entity.updatedAt = LocalDate.now()
         addHistory(entity, BookStatus.RESERVED, "reserved by ${req.userId}")
         entity
     }
@@ -91,7 +91,7 @@ class BookTrackingRepositoryImpl : BookTrackingRepository {
         val entity = findByBookId(bookId) ?: return@transaction false
         if (entity.isDeleted) return@transaction false
         entity.isDeleted = true
-        entity.updatedAt = Instant.now()
+        entity.updatedAt = LocalDate.now()
         addHistory(entity, entity.status, "soft delete")
         true
     }
@@ -105,9 +105,9 @@ class BookTrackingRepositoryImpl : BookTrackingRepository {
 
     private fun addHistory(tracking: BookTrackingEntity, status: BookStatus, comment: String?) {
         BookTrackingHistoryEntity.new {
-            this.tracking = tracking.id
+            this.tracking = tracking
             this.status = status
-            this.changedAt = Instant.now()
+            this.changedAt = LocalDate.now()
             this.comment = comment
         }
     }

@@ -26,3 +26,4 @@ fun BookTrackingHistoryEntity.toDto() = BookTrackingHistoryDto(
     changedAt = changedAt,
     comment = comment
 )
+

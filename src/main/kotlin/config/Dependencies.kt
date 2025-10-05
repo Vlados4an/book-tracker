@@ -4,7 +4,7 @@ import di.modules.createAppModule
 import io.ktor.server.application.*
 import org.kodein.di.ktor.di
 import ru.clevertec.modules.kafkaModule
-import trackingModule
+import ru.clevertec.modules.trackingModule
 
 fun Application.configureDependencies() {
     di {

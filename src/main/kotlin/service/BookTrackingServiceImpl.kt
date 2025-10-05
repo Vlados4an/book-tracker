@@ -9,7 +9,7 @@ class BookTrackingServiceImpl(
 ) : BookTrackingService {
 
     override fun create(req: CreateBookTrackingRequest) =
-        repo.create(req.bookId, req.status).toDto()
+        repo.create(req).toDto()
 
     override fun getAvailable() = repo.listAvailable().map { it.toDto() }
 

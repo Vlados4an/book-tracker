@@ -1,4 +1,4 @@
-package di.modules
+package ru.clevertec.modules
 
 import io.ktor.server.application.ApplicationEnvironment
 import org.kodein.di.DI

@@ -4,13 +4,14 @@ import io.ktor.server.config.*
 
 data class KafkaConfig(
     val bootstrapServers: String,
-    val producer: ProducerConfig,
+    val consumer: ConsumerConfig,
     val topics: Topics
 ) {
-    data class ProducerConfig(
+    data class ConsumerConfig(
+        val groupId: String,
         val clientId: String,
-        val acks: String,
-        val retries: Int
+        val autoOffsetReset: String,
+        val enableAutoCommit: Boolean
     )
 
     data class Topics(
@@ -23,10 +24,11 @@ fun ApplicationConfig.getKafkaConfig(): KafkaConfig {
     val kafka = config("kafka")
     return KafkaConfig(
         bootstrapServers = kafka.property("bootstrapServers").getString(),
-        producer = KafkaConfig.ProducerConfig(
-            clientId = kafka.property("producer.clientId").getString(),
-            acks = kafka.property("producer.acks").getString(),
-            retries = kafka.property("producer.retries").getString().toInt()
+        consumer = KafkaConfig.ConsumerConfig(
+            groupId = kafka.property("consumer.groupId").getString(),
+            clientId = kafka.property("consumer.clientId").getString(),
+            autoOffsetReset = kafka.property("consumer.autoOffsetReset").getString(),
+            enableAutoCommit = kafka.property("consumer.enableAutoCommit").getString().toBoolean()
         ),
         topics = KafkaConfig.Topics(
             bookEvents = kafka.property("topics.bookEvents").getString(),

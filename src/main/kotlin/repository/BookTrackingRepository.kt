@@ -1,13 +1,13 @@
 package ru.clevertec.repository
 
+import dto.tracking.BookTrackingHistoryDto
+import dto.tracking.CreateBookTrackingRequest
 import dto.tracking.ReserveBookRequest
 import dto.tracking.UpdateBookStatusRequest
 import model.entity.BookTrackingEntity
-import dto.tracking.BookTrackingHistoryDto
-import model.enums.BookStatus
 
 interface BookTrackingRepository {
-    fun create(bookId: Int, status: BookStatus): BookTrackingEntity
+    fun create(req: CreateBookTrackingRequest): BookTrackingEntity
     fun findByBookId(bookId: Int): BookTrackingEntity?
     fun listAvailable(): List<BookTrackingEntity>
     fun updateStatus(bookId: Int, req: UpdateBookStatusRequest): BookTrackingEntity?

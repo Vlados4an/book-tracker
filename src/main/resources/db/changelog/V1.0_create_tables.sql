@@ -25,12 +25,3 @@ CREATE TABLE book_tracking_history
             ON DELETE CASCADE
 );
 
-INSERT INTO book_tracking (book_id, status, borrowed_at, due_date, borrowed_by, reserved_by, reserved_until, is_deleted,
-                           updated_at)
-VALUES (1, 'AVAILABLE', NULL, NULL, NULL, NULL, NULL, FALSE, CURRENT_TIMESTAMP),
-       (2, 'BORROWED', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL 14 DAY, 101, NULL, NULL, FALSE,
-        CURRENT_TIMESTAMP),
-       (3, 'RESERVED', NULL, NULL, NULL, 102, CURRENT_TIMESTAMP + INTERVAL 3 DAY, FALSE, CURRENT_TIMESTAMP),
-       (4, 'MAINTENANCE', NULL, NULL, NULL, NULL, NULL, FALSE, CURRENT_TIMESTAMP),
-       (5, 'LOST', NULL, NULL, NULL, NULL, NULL, TRUE, CURRENT_TIMESTAMP);
-

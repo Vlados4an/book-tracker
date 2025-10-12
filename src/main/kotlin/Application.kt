@@ -4,6 +4,7 @@ import config.configureDatabase
 import config.configureKafka
 import config.configureSerialization
 import io.ktor.server.application.*
+import ru.clevertec.config.configureAuth
 import ru.clevertec.config.configureDependencies
 import ru.clevertec.config.configureExceptions
 import ru.clevertec.config.configureLiquibase
@@ -17,6 +18,7 @@ fun Application.module() {
     configureDatabase()
     configureLiquibase()
     configureDependencies()
+    configureAuth()
     configureRouting()
     configureExceptions()
     configureSerialization()

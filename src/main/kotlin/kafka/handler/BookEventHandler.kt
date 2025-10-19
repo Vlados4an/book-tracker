@@ -8,7 +8,7 @@ import model.enums.BookStatus
 import org.slf4j.LoggerFactory
 import ru.clevertec.dto.kafka.BookEvent
 import ru.clevertec.kafka.handler.EventHandler
-import ru.clevertec.service.BookTrackingService
+import ru.clevertec.service.tracking.BookTrackingService
 
 class BookEventHandler(
     private val trackingService: BookTrackingService

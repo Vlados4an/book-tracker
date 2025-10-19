@@ -6,8 +6,8 @@ import org.kodein.di.instance
 import org.kodein.di.singleton
 import ru.clevertec.repository.BookTrackingRepository
 import ru.clevertec.repository.BookTrackingRepositoryImpl
-import ru.clevertec.service.BookTrackingService
-import ru.clevertec.service.BookTrackingServiceImpl
+import ru.clevertec.service.tracking.BookTrackingService
+import ru.clevertec.service.tracking.BookTrackingServiceImpl
 
 val trackingModule = DI.Module("trackingModule") {
     bind<BookTrackingRepository>() with singleton { BookTrackingRepositoryImpl() }

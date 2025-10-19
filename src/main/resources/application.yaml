@@ -20,9 +20,16 @@ kafka:
     clientId: "book-service-consumer"
     autoOffsetReset: "earliest"
     enableAutoCommit: false
+  producer:
+    clientId: book-service-producer
+    acks: all
+    retries: 3
+    requestTimeout: 30000
+    deliveryTimeout: 120000
   topics:
     bookEvents: "book-events"
     authorEvents: "author-events"
+    notificationEvents: "notification-events"
 jwt:
   issuer: "library-service"
   secret: "your-secret-key-change-in-production"

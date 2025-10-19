@@ -12,6 +12,9 @@ import ru.clevertec.config.KafkaConfig
 import ru.clevertec.config.getKafkaConfig
 import ru.clevertec.dto.kafka.BookEvent
 import ru.clevertec.kafka.handler.EventHandler
+import ru.clevertec.kafka.producer.KafkaProducerService
+import ru.clevertec.kafka.producer.KafkaProducerServiceImpl
+import service.notification.NotificationScheduler
 
 val kafkaModule = DI.Module("kafkaModule") {
     bind<KafkaConfig>() with singleton { instance<ApplicationEnvironment>().config.getKafkaConfig() }
@@ -22,4 +25,6 @@ val kafkaModule = DI.Module("kafkaModule") {
     }
     bind<EventHandler<BookEvent>>() with singleton { BookEventHandler(instance()) }
     bind<KafkaConsumerService>() with singleton { KafkaConsumerServiceImpl(instance(), instance()) }
+    bind<KafkaProducerService>() with singleton { KafkaProducerServiceImpl(instance()) }
+    bind<NotificationScheduler>() with singleton { NotificationScheduler(instance(), instance(), instance()) }
 }

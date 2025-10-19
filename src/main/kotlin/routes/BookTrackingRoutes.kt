@@ -9,7 +9,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import ru.clevertec.service.BookTrackingService
+import ru.clevertec.service.tracking.BookTrackingService
 import ru.clevertec.validator.validatedReceive
 import util.getIntParamOrBadRequest
 

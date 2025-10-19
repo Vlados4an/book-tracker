@@ -14,4 +14,5 @@ interface BookTrackingRepository {
     fun reserve(bookId: Int, req: ReserveBookRequest): BookTrackingEntity?
     fun softDelete(bookId: Int): Boolean
     fun getHistory(bookId: Int): List<BookTrackingHistoryDto>
+    fun findReservedBooksWithUpcomingDueDate(): List<BookTrackingEntity>
 }

@@ -2,6 +2,7 @@ package ru.clevertec
 
 import config.configureDatabase
 import config.configureKafka
+import config.configureScheduler
 import config.configureSerialization
 import io.ktor.server.application.*
 import ru.clevertec.config.configureAuth
@@ -23,4 +24,5 @@ fun Application.module() {
     configureExceptions()
     configureSerialization()
     configureKafka()
+    configureScheduler()
 }

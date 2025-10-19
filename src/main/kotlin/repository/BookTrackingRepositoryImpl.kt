@@ -102,6 +102,19 @@ class BookTrackingRepositoryImpl : BookTrackingRepository {
             .map { it.toDto() }
     }
 
+    override fun findReservedBooksWithUpcomingDueDate(): List<BookTrackingEntity> = transaction {
+        val today = LocalDate.now()
+        val oneWeekFromNow = today.plusDays(7)
+
+        BookTrackingEntity.find {
+            (BookTrackings.status eq BookStatus.RESERVED) and
+                    (BookTrackings.reservedUntil.isNotNull()) and
+                    (BookTrackings.reservedUntil lessEq oneWeekFromNow) and
+                    (BookTrackings.reservedUntil greaterEq today) and
+                    (BookTrackings.isDeleted eq false)
+        }.toList()
+    }
+
     private fun addHistory(tracking: BookTrackingEntity, status: BookStatus, comment: String?) {
         BookTrackingHistoryEntity.new {
             this.tracking = tracking

@@ -1,7 +1,10 @@
-package ru.clevertec.service
+package ru.clevertec.service.tracking
 
-import dto.tracking.*
+import dto.tracking.BookTrackingDto
 import dto.tracking.BookTrackingHistoryDto
+import dto.tracking.CreateBookTrackingRequest
+import dto.tracking.ReserveBookRequest
+import dto.tracking.UpdateBookStatusRequest
 
 interface BookTrackingService {
     fun create(req: CreateBookTrackingRequest): BookTrackingDto
